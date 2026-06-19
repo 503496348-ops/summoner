@@ -6,8 +6,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Login } from "../login"
 
 const APP_NAME = `召物少年-Summoner`
-const APP_DOMAIN = `aicomicfactory.app`
-const APP_URL = `https://aicomicfactory.app`
+const APP_DOMAIN = `summoner.atomcollide.com`
+const APP_URL = `https://summoner.atomcollide.com`
 const APP_VERSION = `1.6`
 const APP_RELEASE_DATE = `August 2024`
 
@@ -44,9 +44,7 @@ export function About() {
           <p>
            App is free for Hugging Face users 👉 <Login />
           </p>
-          <p>
-            Join us on Discord 👉 <ExternalLink url="https://discord.com/invite/AEruz9B92B">The Latent Space</ExternalLink>
-          </p>
+
           <p className="pt-2 pb-2">
             Are you an artist? Learn <a className="text-stone-600 underline" href="https://huggingface.co/spaces/AtomCollide-智械工坊/summoner/discussions/402#654ab848fa25dfb780aa19fb" target="_blank">how to use your own art style</a>
           </p>

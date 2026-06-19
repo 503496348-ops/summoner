@@ -25,7 +25,7 @@ export function AuthWall({ show }: { show: boolean }) {
            both the image and the story providers to use external vendors.
       </p>
          <p className="mt-2 text-base">
-          This pop-up will also disappear if you <a className="text-stone-600 underline" href="https://github.com/AtomCollide-智械工坊/summoner" target="_blank">download the code</a> to run the app at home.
+          This pop-up will also disappear if you <a className="text-stone-600 underline" href="https://github.com/503496348-ops/summoner" target="_blank">download the code</a> to run the app at home.
          </p>
         </div>
       </DialogContent>

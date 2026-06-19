@@ -9,7 +9,7 @@ import { sleep } from "@/lib/sleep"
 
 import { Share } from "../share"
 import { About } from "../about"
-import { Discord } from "../discord"
+
 import { SettingsDialog } from "../settings-dialog"
 import { useLocalStorage } from "usehooks-ts"
 import { localStorageKeys } from "../settings-dialog/localStorageKeys"
@@ -132,7 +132,7 @@ function BottomBar() {
         `scale-[0.9]`
       )}>
         <About />
-        <Discord />
+
         <Advert />
       </div>
       <div className={cn(

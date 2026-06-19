@@ -86,7 +86,7 @@ ${comicFileMd}`;
       description: descriptionMd,
       });
     const paramsStr = params.toString();
-    window.open(`https://huggingface.co/spaces/AtomCollide-智械工坊/comic-factory/discussions/new?${paramsStr}`, '_blank');
+    window.open(`https://huggingface.co/spaces/AtomCollide-智械工坊/summoner/discussions/new?${paramsStr}`, '_blank');
   }
   
   return (

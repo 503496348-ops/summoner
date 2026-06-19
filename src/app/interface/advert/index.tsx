@@ -6,9 +6,9 @@ export function Advert() {
       variant="outline"
       className="bg-yellow-400 border-stone-600/30 hover:bg-yellow-300"
       onClick={() => {
-        window.open("https://huggingface.co/spaces/AtomCollide-智械工坊/AiComicFactory2", "_blank")
+        window.open("https://huggingface.co/spaces/AtomCollide-智械工坊/summoner", "_blank")
       }}>
-      <span className="hidden md:inline">Try the V2!</span>
+      <span className="hidden md:inline">Try Summoner on HF</span>
       <span className="inline md:hidden">...</span>
     </Button>
   )

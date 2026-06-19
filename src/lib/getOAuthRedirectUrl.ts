@@ -4,8 +4,8 @@ export function getOAuthRedirectUrl(): string {
   }
 
   return (
-    window.location.hostname === "aicomicfactory.app" ? "https://aicomicfactory.app"
-    : window.location.hostname === "AtomCollide-智械工坊-summoner.hf.space" ? "https://AtomCollide-智械工坊-summoner.hf.space"
+    window.location.hostname === "summoner.atomcollide.com" ? "https://summoner.atomcollide.com"
+    : window.location.hostname === "AtomCollide-summoner.hf.space" ? "https://AtomCollide-summoner.hf.space"
     : "http://localhost:3000"
   )
 }

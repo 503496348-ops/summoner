@@ -32,7 +32,7 @@
 
 ```bash
 npm install
-cp .env.example .env.local  # Configure your API keys
+cp .env .env.local  # Configure your API keys
 npm run dev
 ```
 
