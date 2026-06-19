@@ -111,12 +111,14 @@ export type RenderingEngine =
   | "REPLICATE"
   | "INFERENCE_API"
   | "INFERENCE_ENDPOINT"
+  | "SILICONFLOW"
 
 export type RenderingModelVendor =
   | "SERVER"
   | "OPENAI"
   | "REPLICATE"
   | "HUGGINGFACE"
+  | "SILICONFLOW"
 
 // LLMVendor = what the user configure in the UI (eg. a dropdown item called default server)
 // LLMEngine = the actual engine to use (eg. hugging face)
@@ -196,6 +198,8 @@ export type Settings = {
   openaiApiKey: string
   openaiApiModel: string
   openaiApiLanguageModel: string
+  siliconflowApiKey: string
+  siliconflowApiModel: string
   groqApiKey: string
   groqApiLanguageModel: string
   anthropicApiKey: string

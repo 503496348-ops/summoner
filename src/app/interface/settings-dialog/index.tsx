@@ -85,6 +85,14 @@ export function SettingsDialog() {
     localStorageKeys.openaiApiLanguageModel,
     defaultSettings.openaiApiLanguageModel
   )
+  const [siliconflowApiKey, setSiliconflowApiKey] = useLocalStorage<string>(
+    localStorageKeys.siliconflowApiKey,
+    defaultSettings.siliconflowApiKey
+  )
+  const [siliconflowApiModel, setSiliconflowApiModel] = useLocalStorage<string>(
+    localStorageKeys.siliconflowApiModel,
+    defaultSettings.siliconflowApiModel
+  )
   const [groqApiKey, setGroqApiKey] = useLocalStorage<string>(
     localStorageKeys.groqApiKey,
     defaultSettings.groqApiKey
@@ -199,6 +207,7 @@ export function SettingsDialog() {
                 <SelectItem value="HUGGINGFACE">Custom Inference API model (pro hugging face account recommended)</SelectItem>
                 <SelectItem value="REPLICATE">Custom Replicate model (will bill your own account)</SelectItem>
                 <SelectItem value="OPENAI">DALL·E 3 by OpenAI (partial support, will bill your own account)</SelectItem>
+                <SelectItem value="SILICONFLOW">SiliconFlow 硅基流动 (free tier available, recommended for Chinese users)</SelectItem>
               </SelectContent>
             </Select>
           </Field>
@@ -327,6 +336,32 @@ export function SettingsDialog() {
                     setReplicateApiModelTrigger(x.target.value)
                   }}
                   value={replicateApiModelTrigger}
+                />
+              </Field>
+            </>}
+
+            {renderingModelVendor === "SILICONFLOW" && <>
+              <Field>
+                <Label>SiliconFlow API Key (get yours at <a className="text-stone-600 underline" href="https://cloud.siliconflow.cn/" target="_blank">cloud.siliconflow.cn</a>):</Label>
+                <Input
+                  className={fonts.actionman.className}
+                  type="password"
+                  placeholder="Enter your SiliconFlow API key"
+                  onChange={(x: any) => {
+                    setSiliconflowApiKey(x.target.value)
+                  }}
+                  value={siliconflowApiKey}
+                />
+              </Field>
+              <Field>
+                <Label>SiliconFlow image model:</Label>
+                <Input
+                  className={fonts.actionman.className}
+                  placeholder="e.g. Qwen/Qwen-Image"
+                  onChange={(x: any) => {
+                    setSiliconflowApiModel(x.target.value)
+                  }}
+                  value={siliconflowApiModel}
                 />
               </Field>
             </>}

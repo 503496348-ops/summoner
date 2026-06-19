@@ -16,6 +16,8 @@ export const defaultSettings: Settings = {
   openaiApiKey: "",
   openaiApiModel: "dall-e-3",
   openaiApiLanguageModel: "gpt-4-turbo",
+  siliconflowApiKey: "",
+  siliconflowApiModel: "Qwen/Qwen-Image",
   groqApiKey: "",
   groqApiLanguageModel: "mixtral-8x7b-32768",
   anthropicApiKey: "",

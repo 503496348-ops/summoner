@@ -20,6 +20,8 @@ export const localStorageKeys: Record<keyof Settings, string> = {
   openaiApiKey: `${version}CONF_AUTH_OPENAI_API_KEY`,
   openaiApiModel: `${version}CONF_AUTH_OPENAI_API_MODEL`,
   openaiApiLanguageModel: `${version}CONF_AUTH_OPENAI_API_LANGUAGE_MODEL`,
+  siliconflowApiKey: `${version}CONF_AUTH_SILICONFLOW_API_KEY`,
+  siliconflowApiModel: `${version}CONF_AUTH_SILICONFLOW_API_MODEL`,
   groqApiKey: `${version}CONF_AUTH_GROQ_API_KEY`,
   groqApiLanguageModel: `${version}CONF_AUTH_GROQ_API_LANGUAGE_MODEL`,
   anthropicApiKey: `${version}CONF_AUTH_ANTHROPIC_API_KEY`,

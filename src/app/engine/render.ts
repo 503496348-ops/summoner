@@ -29,6 +29,9 @@ const serverOpenaiApiKey = `${process.env.AUTH_OPENAI_API_KEY || ""}`
 const serverOpenaiApiBaseUrl = `${process.env.RENDERING_OPENAI_API_BASE_URL || "https://api.openai.com/v1"}`
 const serverOpenaiApiModel = `${process.env.RENDERING_OPENAI_API_MODEL || "dall-e-3"}`
 
+const serverSiliconflowApiKey = `${process.env.SILICONFLOW_API_KEY || ""}`
+const serverSiliconflowApiModel = `${process.env.SILICONFLOW_MODEL || "Qwen/Qwen-Image"}`
+
 export async function newRender({
   prompt,
   // negativePrompt,
@@ -70,6 +73,9 @@ export async function newRender({
   let openaiApiKey = serverOpenaiApiKey
   let openaiApiModel = serverOpenaiApiModel
 
+  let siliconflowApiKey = serverSiliconflowApiKey
+  let siliconflowApiModel = serverSiliconflowApiModel
+
   let replicateApiKey = serverReplicateApiKey
   let replicateApiModel = serverReplicateApiModel
   let replicateApiModelVersion = serverReplicateApiModelVersion
@@ -98,6 +104,15 @@ export async function newRender({
     renderingEngine = "OPENAI"
     openaiApiKey = settings.openaiApiKey
     openaiApiModel = settings.openaiApiModel
+  } else if (
+    settings.renderingModelVendor === "SILICONFLOW" &&
+    settings.siliconflowApiKey &&
+    settings.siliconflowApiKey !== placeholder
+  ) {
+    console.log("using SiliconFlow using user credentials (hidden)")
+    renderingEngine = "SILICONFLOW"
+    siliconflowApiKey = settings.siliconflowApiKey
+    siliconflowApiModel = settings.siliconflowApiModel || serverSiliconflowApiModel
   } if (
     settings.renderingModelVendor === "REPLICATE" &&
     settings.replicateApiKey &&
@@ -126,7 +141,50 @@ export async function newRender({
   } 
 
   try {
-    if (renderingEngine === "OPENAI") {
+    if (renderingEngine === "SILICONFLOW") {
+      if (!siliconflowApiKey) {
+        throw new Error(`invalid siliconflowApiKey, you need to configure your SILICONFLOW_API_KEY in order to use the SILICONFLOW rendering engine`)
+      }
+
+      const size =
+        width > height ? '1792x1024' :
+        width < height ? '1024x1792' :
+        '1024x1024'
+
+      const res = await fetch(`https://api.siliconflow.cn/v1/images/generations`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${siliconflowApiKey}`,
+        },
+        body: JSON.stringify({
+          model: siliconflowApiModel,
+          prompt,
+          n: 1,
+          size,
+        }),
+        cache: 'no-store',
+      })
+
+      if (res.status !== 200) {
+        const errText = await res.text()
+        console.error("SiliconFlow API error:", errText)
+        throw new Error(`SiliconFlow API error: ${res.status}`)
+      }
+
+      const response = (await res.json()) as { data: { url: string }[] }
+
+      return {
+        renderId: uuidv4(),
+        status: "completed",
+        assetUrl: response.data[0].url || "",
+        alt: prompt,
+        error: "",
+        maskUrl: "",
+        segments: []
+      } as RenderedScene
+    } else if (renderingEngine === "OPENAI") {
 
       /*
       const openai = new OpenAI({
@@ -429,6 +487,9 @@ export async function getRender(renderId: string, settings: Settings) {
   let openaiApiKey = serverOpenaiApiKey
   let openaiApiModel = serverOpenaiApiModel
 
+  let siliconflowApiKey = serverSiliconflowApiKey
+  let siliconflowApiModel = serverSiliconflowApiModel
+
   let replicateApiKey = serverReplicateApiKey
   let replicateApiModel = serverReplicateApiModel
   let replicateApiModelVersion = serverReplicateApiModelVersion
@@ -451,6 +512,14 @@ export async function getRender(renderId: string, settings: Settings) {
     renderingEngine = "OPENAI"
     openaiApiKey = settings.openaiApiKey
     openaiApiModel = settings.openaiApiModel
+  } else if (
+    settings.renderingModelVendor === "SILICONFLOW" &&
+    settings.siliconflowApiKey &&
+    settings.siliconflowApiKey !== placeholder
+  ) {
+    renderingEngine = "SILICONFLOW"
+    siliconflowApiKey = settings.siliconflowApiKey
+    siliconflowApiModel = settings.siliconflowApiModel || serverSiliconflowApiModel
   } if (
     settings.renderingModelVendor === "REPLICATE" &&
     settings.replicateApiKey &&
@@ -487,7 +556,18 @@ export async function getRender(renderId: string, settings: Settings) {
   }
 
   try {
-    if (renderingEngine === "REPLICATE") {
+    if (renderingEngine === "SILICONFLOW") {
+      // SiliconFlow is synchronous like OpenAI, no polling needed
+      return {
+        renderId,
+        status: "completed",
+        assetUrl: "",
+        alt: "",
+        error: "",
+        maskUrl: "",
+        segments: []
+      } as RenderedScene
+    } else if (renderingEngine === "REPLICATE") {
       if (!replicateApiKey) {
         throw new Error(`invalid replicateApiKey, you need to configure your AUTH_REPLICATE_API_TOKEN in order to use the REPLICATE rendering engine`)
       }

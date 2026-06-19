@@ -18,7 +18,7 @@
 - 🔊 **音效文字** / Sound effect text
 - 📐 **分格布局** / Panel layout generation
 - 🔤 **多字体支持** / Multiple comic fonts
-- 🖼️ **多渲染引擎** / Multiple rendering engines (SDXL, DALL-E, Replicate)
+- 🖼️ **多渲染引擎** / Multiple rendering engines (SDXL, DALL-E, Replicate, SiliconFlow)
 
 ## Tech Stack / 技术栈
 
@@ -35,6 +35,44 @@ npm install
 cp .env.example .env.local  # Configure your API keys
 npm run dev
 ```
+
+## ⚠️ Image Generation Configuration (Required)
+
+**You MUST configure at least one image generation API key.** Without a valid API key for one of the supported rendering engines, the app **cannot generate images**.
+
+Choose **one** of the following rendering engines and configure the corresponding environment variables in your `.env.local`:
+
+### Supported Rendering Engines
+
+| Engine | Env Vars Required | Notes |
+|--------|-------------------|-------|
+| **INFERENCE_API** (Hugging Face) | `AUTH_HF_API_TOKEN`, `RENDERING_HF_INFERENCE_API_BASE_MODEL` | Free tier available. PRO account recommended for higher rate limits. Default model: `stabilityai/stable-diffusion-xl-base-1.0` |
+| **REPLICATE** | `AUTH_REPLICATE_API_TOKEN`, `RENDERING_REPLICATE_API_MODEL`, `RENDERING_REPLICATE_API_MODEL_VERSION` | $5 free credit for new accounts. Default model: `stabilityai/sdxl` |
+| **OPENAI** (DALL-E) | `AUTH_OPENAI_API_KEY` | Paid service. Default model: `dall-e-3`. Base URL configurable via `RENDERING_OPENAI_API_BASE_URL` |
+| **SILICONFLOW** (硅基流动) | `SILICONFLOW_API_KEY` | Free tier available. **Recommended for Chinese users / 推荐中国用户使用**. Default model: `Qwen/Qwen-Image`. Get your key at https://cloud.siliconflow.cn/ |
+
+Set the `RENDERING_ENGINE` variable to select your engine:
+
+```bash
+# Choose one:
+RENDERING_ENGINE="INFERENCE_API"    # Hugging Face
+RENDERING_ENGINE="REPLICATE"        # Replicate
+RENDERING_ENGINE="OPENAI"           # OpenAI DALL-E
+RENDERING_ENGINE="SILICONFLOW"      # SiliconFlow 硅基流动
+```
+
+You can also override the rendering engine from the **Settings** dialog in the app UI — no need to restart the server.
+
+## LLM Engine Configuration (Optional)
+
+The story generation feature supports multiple LLM providers:
+
+| Engine | Env Vars Required | Notes |
+|--------|-------------------|-------|
+| **INFERENCE_API** (Hugging Face) | `AUTH_HF_API_TOKEN` | Free tier available |
+| **OPENAI** | `AUTH_OPENAI_API_KEY` | ChatGPT models |
+| **GROQ** | `AUTH_GROQ_API_KEY` | Fast open-source models |
+| **ANTHROPIC** | `AUTH_ANTHROPIC_API_KEY` | Claude models |
 
 ## Environment Variables / 环境变量
 
