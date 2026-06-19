@@ -32,13 +32,13 @@
 
 ```bash
 npm install
-cp .env .env.local  # Configure your API keys
+cp .env.example .env.local  # Configure your API keys
 npm run dev
 ```
 
 ## Environment Variables / 环境变量
 
-See `.env` for all configurable options including LLM and rendering engine settings.
+See `.env.example` for all configurable options including LLM and rendering engine settings.
 
 ## License
 
