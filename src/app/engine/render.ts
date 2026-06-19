@@ -6,6 +6,7 @@ import Replicate from "replicate"
 import { RenderRequest, RenderedScene, RenderingEngine, Settings } from "@/types"
 import { generateSeed } from "@/lib/generateSeed"
 import { sleep } from "@/lib/sleep"
+import { optimizePrompt } from "@/app/engine/promptOptimizer"
 
 const serverRenderingEngine = `${process.env.RENDERING_ENGINE || ""}` as RenderingEngine
 
@@ -31,6 +32,7 @@ const serverOpenaiApiModel = `${process.env.RENDERING_OPENAI_API_MODEL || "dall-
 
 const serverSiliconflowApiKey = `${process.env.SILICONFLOW_API_KEY || ""}`
 const serverSiliconflowApiModel = `${process.env.SILICONFLOW_MODEL || "Qwen/Qwen-Image"}`
+const serverSiliconflowLlmModel = `${process.env.SILICONFLOW_LLM_MODEL || "Qwen/Qwen3-32B"}`
 
 export async function newRender({
   prompt,
@@ -75,6 +77,7 @@ export async function newRender({
 
   let siliconflowApiKey = serverSiliconflowApiKey
   let siliconflowApiModel = serverSiliconflowApiModel
+  let siliconflowLlmModel = serverSiliconflowLlmModel
 
   let replicateApiKey = serverReplicateApiKey
   let replicateApiModel = serverReplicateApiModel
@@ -113,6 +116,7 @@ export async function newRender({
     renderingEngine = "SILICONFLOW"
     siliconflowApiKey = settings.siliconflowApiKey
     siliconflowApiModel = settings.siliconflowApiModel || serverSiliconflowApiModel
+    siliconflowLlmModel = settings.siliconflowLlmModel || serverSiliconflowLlmModel
   } if (
     settings.renderingModelVendor === "REPLICATE" &&
     settings.replicateApiKey &&
@@ -151,6 +155,12 @@ export async function newRender({
         width < height ? '1024x1792' :
         '1024x1024'
 
+      // Optimize prompt with LLM before image generation (if enabled)
+      let optimizedPrompt = prompt
+      if (settings.siliconflowAutoOptimizePrompt !== false) {
+        optimizedPrompt = await optimizePrompt(prompt, siliconflowApiKey, siliconflowLlmModel)
+      }
+
       const res = await fetch(`https://api.siliconflow.cn/v1/images/generations`, {
         method: "POST",
         headers: {
@@ -160,7 +170,7 @@ export async function newRender({
         },
         body: JSON.stringify({
           model: siliconflowApiModel,
-          prompt,
+          prompt: optimizedPrompt,
           n: 1,
           size,
         }),
@@ -489,6 +499,7 @@ export async function getRender(renderId: string, settings: Settings) {
 
   let siliconflowApiKey = serverSiliconflowApiKey
   let siliconflowApiModel = serverSiliconflowApiModel
+  let siliconflowLlmModel = serverSiliconflowLlmModel
 
   let replicateApiKey = serverReplicateApiKey
   let replicateApiModel = serverReplicateApiModel
@@ -520,6 +531,7 @@ export async function getRender(renderId: string, settings: Settings) {
     renderingEngine = "SILICONFLOW"
     siliconflowApiKey = settings.siliconflowApiKey
     siliconflowApiModel = settings.siliconflowApiModel || serverSiliconflowApiModel
+    siliconflowLlmModel = settings.siliconflowLlmModel || serverSiliconflowLlmModel
   } if (
     settings.renderingModelVendor === "REPLICATE" &&
     settings.replicateApiKey &&

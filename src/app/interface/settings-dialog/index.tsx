@@ -93,6 +93,14 @@ export function SettingsDialog() {
     localStorageKeys.siliconflowApiModel,
     defaultSettings.siliconflowApiModel
   )
+  const [siliconflowAutoOptimizePrompt, setSiliconflowAutoOptimizePrompt] = useLocalStorage<boolean>(
+    localStorageKeys.siliconflowAutoOptimizePrompt,
+    defaultSettings.siliconflowAutoOptimizePrompt
+  )
+  const [siliconflowLlmModel, setSiliconflowLlmModel] = useLocalStorage<string>(
+    localStorageKeys.siliconflowLlmModel,
+    defaultSettings.siliconflowLlmModel
+  )
   const [groqApiKey, setGroqApiKey] = useLocalStorage<string>(
     localStorageKeys.groqApiKey,
     defaultSettings.groqApiKey
@@ -364,6 +372,33 @@ export function SettingsDialog() {
                   value={siliconflowApiModel}
                 />
               </Field>
+              <Field>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="autoOptimizePrompt"
+                    checked={siliconflowAutoOptimizePrompt}
+                    onChange={(e) => setSiliconflowAutoOptimizePrompt(e.target.checked)}
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <Label className="cursor-pointer">
+                    Auto-optimize prompts with LLM (enhances short prompts before image generation)
+                  </Label>
+                </div>
+              </Field>
+              {siliconflowAutoOptimizePrompt && (
+                <Field>
+                  <Label>LLM model for prompt optimization:</Label>
+                  <Input
+                    className={fonts.actionman.className}
+                    placeholder="e.g. Qwen/Qwen3-32B"
+                    onChange={(x: any) => {
+                      setSiliconflowLlmModel(x.target.value)
+                    }}
+                    value={siliconflowLlmModel}
+                  />
+                </Field>
+              )}
             </>}
 
             <SectionTitle>👇 Story generation options (🚧 experimental feature 🚧)</SectionTitle>

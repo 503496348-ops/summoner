@@ -22,6 +22,8 @@ export const localStorageKeys: Record<keyof Settings, string> = {
   openaiApiLanguageModel: `${version}CONF_AUTH_OPENAI_API_LANGUAGE_MODEL`,
   siliconflowApiKey: `${version}CONF_AUTH_SILICONFLOW_API_KEY`,
   siliconflowApiModel: `${version}CONF_AUTH_SILICONFLOW_API_MODEL`,
+  siliconflowAutoOptimizePrompt: `${version}CONF_SILICONFLOW_AUTO_OPTIMIZE_PROMPT`,
+  siliconflowLlmModel: `${version}CONF_SILICONFLOW_LLM_MODEL`,
   groqApiKey: `${version}CONF_AUTH_GROQ_API_KEY`,
   groqApiLanguageModel: `${version}CONF_AUTH_GROQ_API_LANGUAGE_MODEL`,
   anthropicApiKey: `${version}CONF_AUTH_ANTHROPIC_API_KEY`,

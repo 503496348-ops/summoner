@@ -18,6 +18,8 @@ export const defaultSettings: Settings = {
   openaiApiLanguageModel: "gpt-4-turbo",
   siliconflowApiKey: "",
   siliconflowApiModel: "Qwen/Qwen-Image",
+  siliconflowAutoOptimizePrompt: true,
+  siliconflowLlmModel: "Qwen/Qwen3-32B",
   groqApiKey: "",
   groqApiLanguageModel: "mixtral-8x7b-32768",
   anthropicApiKey: "",

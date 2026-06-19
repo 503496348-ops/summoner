@@ -200,6 +200,8 @@ export type Settings = {
   openaiApiLanguageModel: string
   siliconflowApiKey: string
   siliconflowApiModel: string
+  siliconflowAutoOptimizePrompt: boolean
+  siliconflowLlmModel: string
   groqApiKey: string
   groqApiLanguageModel: string
   anthropicApiKey: string

@@ -26,6 +26,8 @@ export function getSettings(): Settings {
       openaiApiLanguageModel: getValidString(localStorage?.getItem?.(localStorageKeys.openaiApiLanguageModel), defaultSettings.openaiApiLanguageModel),
       siliconflowApiKey: getValidString(localStorage?.getItem?.(localStorageKeys.siliconflowApiKey), defaultSettings.siliconflowApiKey),
       siliconflowApiModel: getValidString(localStorage?.getItem?.(localStorageKeys.siliconflowApiModel), defaultSettings.siliconflowApiModel),
+      siliconflowAutoOptimizePrompt: getValidBoolean(localStorage?.getItem?.(localStorageKeys.siliconflowAutoOptimizePrompt), defaultSettings.siliconflowAutoOptimizePrompt),
+      siliconflowLlmModel: getValidString(localStorage?.getItem?.(localStorageKeys.siliconflowLlmModel), defaultSettings.siliconflowLlmModel),
       groqApiKey: getValidString(localStorage?.getItem?.(localStorageKeys.groqApiKey), defaultSettings.groqApiKey),
       groqApiLanguageModel: getValidString(localStorage?.getItem?.(localStorageKeys.groqApiLanguageModel), defaultSettings.groqApiLanguageModel),
       anthropicApiKey: getValidString(localStorage?.getItem?.(localStorageKeys.anthropicApiKey), defaultSettings.anthropicApiKey),
