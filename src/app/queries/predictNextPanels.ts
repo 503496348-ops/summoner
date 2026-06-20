@@ -3,6 +3,7 @@ import { cleanJson } from "@/lib/cleanJson"
 import { dirtyGeneratedPanelCleaner } from "@/lib/dirtyGeneratedPanelCleaner"
 import { dirtyGeneratedPanelsParser } from "@/lib/dirtyGeneratedPanelsParser"
 import { sleep } from "@/lib/sleep"
+import { CharacterRegistry, generateConsistencyPrompt } from "../engine/characterConsistency"
 
 import { Preset } from "../engine/presets"
 import { predict } from "./predict"
@@ -16,6 +17,7 @@ export const predictNextPanels = async ({
   maxNbPanels,
   existingPanels = [],
   llmVendorConfig,
+  characterRegistry,
 }: {
   preset: Preset
   prompt: string
@@ -23,13 +25,9 @@ export const predictNextPanels = async ({
   maxNbPanels: number
   existingPanels: GeneratedPanel[]
   llmVendorConfig: LLMVendorConfig
+  characterRegistry?: CharacterRegistry
 }): Promise<GeneratedPanel[]> => {
-  // console.log("predictNextPanels: ", { prompt, nbPanelsToGenerate })
-  // throw new Error("Planned maintenance")
   
-  // In case you need to quickly debug the RENDERING engine you can uncomment this:
-  // return mockGeneratedPanels
-
   const existingPanelsTemplate = existingPanels.length
     ? ` To help you, here are the previous panels, their speeches and captions (note: if you see an anomaly here eg. no speech, no caption or the same description repeated multiple times, do not hesitate to fix the story): ${JSON.stringify(existingPanels, null, 2)}`
     : ''
@@ -46,6 +44,7 @@ export const predictNextPanels = async ({
     firstNextOrLast,
     maxNbPanels,
     nbPanelsToGenerate,
+    characterRegistry,
   })
 
   const userPrompt = getUserPrompt({
@@ -62,7 +61,6 @@ export const predictNextPanels = async ({
   const nbMaxNewTokens = nbPanelsToGenerate * nbTokensPerPanel
 
   try {
-    // console.log(`calling predict:`, { systemPrompt, userPrompt, nbMaxNewTokens })
     result = `${await predict({
       systemPrompt,
       userPrompt,
@@ -74,8 +72,6 @@ export const predictNextPanels = async ({
       throw new Error("empty result on 1st trial!")
     }
   } catch (err) {
-    // console.log(`prediction of the story failed, trying again..`)
-    // this should help throttle things on a bit on the LLM API side
     await sleep(2000)
 
     try {
@@ -95,7 +91,6 @@ export const predictNextPanels = async ({
     }
   }
 
-  // console.log("Raw response from LLM:", result)
   const tmp = cleanJson(result)
   
   let generatedPanels: GeneratedPanel[] = []
@@ -103,12 +98,6 @@ export const predictNextPanels = async ({
   try {
     generatedPanels = dirtyGeneratedPanelsParser(tmp)
   } catch (err) {
-    // console.log(`failed to read LLM response: ${err}`)
-    // console.log(`original response was:`, result)
-
-      // in case of failure here, it might be because the LLM hallucinated a completely different response,
-      // such as markdown. There is no real solution.. but we can try a fallback:
-
     generatedPanels = (
       tmp.split("*")
       .map(item => item.trim())
@@ -119,6 +108,18 @@ export const predictNextPanels = async ({
         instructions: cap,
       }))
     )
+  }
+
+  // Apply character consistency prompts to each panel's instructions
+  if (characterRegistry && characterRegistry.characters.size > 0) {
+    generatedPanels = generatedPanels.map(panel => ({
+      ...panel,
+      instructions: generateConsistencyPrompt(
+        characterRegistry,
+        panel.instructions,
+        preset.imagePrompt('').join(', ')
+      ),
+    }))
   }
 
   return generatedPanels.map(res => dirtyGeneratedPanelCleaner(res))

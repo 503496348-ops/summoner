@@ -15,7 +15,7 @@ import { useStore } from "./store"
 import { Zoom } from "./interface/zoom"
 import { BottomBar } from "./interface/bottom-bar"
 import { Page } from "./interface/page"
-import { getStoryContinuation } from "./queries/getStoryContinuation"
+import { getStoryContinuation, CharacterRegistry } from "./queries/getStoryContinuation"
 import { localStorageKeys } from "./interface/settings-dialog/localStorageKeys"
 import { defaultSettings } from "./interface/settings-dialog/defaultSettings"
 import { SignUpCTA } from "./interface/sign-up-cta"
@@ -108,6 +108,7 @@ export default function Main() {
     newCaptions: [] as string[],
     prompt: "",
     preset: "",
+    characterRegistry: undefined as CharacterRegistry | undefined,
   })
 
   useEffect(() => {
@@ -195,7 +196,7 @@ export default function Main() {
         currentPanel += nbPanelsToGenerate
       ) {
         try {
-          const candidatePanels = await getStoryContinuation({
+          const { panels: candidatePanels, updatedRegistry } = await getStoryContinuation({
             preset,
             stylePrompt,
             userStoryPrompt,
@@ -207,7 +208,12 @@ export default function Main() {
             existingPanels: ref.current.existingPanels,
 
             llmVendorConfig,
+            characterRegistry: ref.current.characterRegistry,
           })
+
+          // Update character registry for cross-panel consistency
+          ref.current.characterRegistry = updatedRegistry
+
           // console.log("LLM generated some new panels:", candidatePanels)
 
           ref.current.existingPanels.push(...candidatePanels)

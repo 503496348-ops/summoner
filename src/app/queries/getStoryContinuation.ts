@@ -3,6 +3,12 @@ import { GeneratedPanel, LLMVendorConfig } from "@/types"
 import { predictNextPanels } from "./predictNextPanels"
 import { joinWords } from "@/lib/joinWords"
 import { sleep } from "@/lib/sleep"
+import {
+  CharacterRegistry,
+  updateCharacterRegistry,
+} from "../engine/characterConsistency"
+
+export type { CharacterRegistry }
 
 export const getStoryContinuation = async ({
   preset,
@@ -11,7 +17,8 @@ export const getStoryContinuation = async ({
   nbPanelsToGenerate,
   maxNbPanels,
   existingPanels = [],
-  llmVendorConfig
+  llmVendorConfig,
+  characterRegistry,
 }: {
   preset: Preset;
   stylePrompt?: string;
@@ -20,11 +27,21 @@ export const getStoryContinuation = async ({
   maxNbPanels: number;
   existingPanels?: GeneratedPanel[];
   llmVendorConfig: LLMVendorConfig
-}): Promise<GeneratedPanel[]> => {
+  characterRegistry?: CharacterRegistry
+}): Promise<{
+  panels: GeneratedPanel[]
+  updatedRegistry: CharacterRegistry
+}> => {
 
   let panels: GeneratedPanel[] = []
   const startAt: number = (existingPanels.length + 1) || 0
   const endAt: number = startAt + nbPanelsToGenerate
+
+  // Initialize or use existing character registry
+  const registry: CharacterRegistry = characterRegistry || {
+    characters: new Map(),
+    order: [],
+  }
 
   try {
 
@@ -37,9 +54,8 @@ export const getStoryContinuation = async ({
       maxNbPanels,
       existingPanels,
       llmVendorConfig,
+      characterRegistry: registry,
     })
-
-    // console.log("LLM responded with panelCandidates:", panelCandidates)
 
     // we clean the output from the LLM
     // most importantly, we need to adjust the panel index,
@@ -54,8 +70,6 @@ export const getStoryContinuation = async ({
     }
     
   } catch (err) {
-    // console.log("LLM step failed due to:", err)
-    // console.log("we are now switching to a degraded mode, using 4 similar panels")
     panels = []
     for (let p = startAt; p < endAt && p; p++) {
       panels.push({
@@ -70,8 +84,9 @@ export const getStoryContinuation = async ({
       })
     }
     await sleep(2000)
-    // console.error(err)
-  } finally {
-    return panels
   }
+
+  // Always update the registry with whatever panels we got
+  const updatedRegistry = updateCharacterRegistry(registry, panels)
+  return { panels, updatedRegistry }
 }
