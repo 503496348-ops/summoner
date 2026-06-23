@@ -1,3 +1,18 @@
+---
+name: summoner
+version: 1.0.0
+description: 召物少年（Summoner）— AI小说转漫画生成平台。输入小说文本，AI自动拆解剧情、生成漫画分格
+author: AtomCollide-智械工坊团队
+license: Apache-2.0
+triggers:
+  - 漫画生成
+  - 小说转漫画
+  - AI漫画
+  - comic generation
+  - 召物少年
+  - summoner
+---
+
 # 召物少年-Summoner
 
 ## Product Metadata / 产品元数据
