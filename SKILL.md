@@ -1,7 +1,7 @@
 ---
 name: summoner
 version: 1.0.0
-description: 召物少年（Summoner）— AI小说转漫画生成平台。输入小说文本，AI自动拆解剧情、生成漫画分格
+description: "AI小说转漫画生成平台。输入小说文本，AI自动拆解剧情、提取角色、生成漫画分格（含对话气泡、内心独白、音效）。当需要将小说/故事转换为漫画、生成漫画分镜时使用。"
 author: AtomCollide-智械工坊团队
 license: Apache-2.0
 triggers:
@@ -14,6 +14,8 @@ triggers:
 ---
 
 # 召物少年-Summoner
+
+> 📖 详细文档见 `references/` 目录
 
 ## Product Metadata / 产品元数据
 
@@ -51,3 +53,12 @@ AI-powered novel-to-comics generation platform. Input story text and the AI auto
 - **Rendering**: Multi-provider image generation with automatic fallbacks
 - **Fonts**: 13 custom comic fonts
 - **Presets**: 4 main comic style categories with extensible config
+
+## 工作流
+
+使用此技能时，按以下步骤执行：
+- [ ] 1. 确认用户需求和使用场景
+- [ ] 2. 加载相关代码和配置
+- [ ] 3. 执行核心功能
+- [ ] 4. 验证输出结果
+- [ ] 5. 反馈给用户
