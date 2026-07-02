@@ -62,3 +62,7 @@ AI-powered novel-to-comics generation platform. Input story text and the AI auto
 - [ ] 3. 执行核心功能
 - [ ] 4. 验证输出结果
 - [ ] 5. 反馈给用户
+## 2026-07-02 融合增强
+
+- 召物少年新增漫画页分层布局契约：背景、分格框架、角色资产与可编辑气泡分离，便于后续局部修订。
+
