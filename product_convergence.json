@@ -1,0 +1,12 @@
+{
+  "repo": "summoner",
+  "entrypoints": [],
+  "smoke_targets": [
+    "scripts/product_convergence_gate.py"
+  ],
+  "known_external_reference_files": [
+    "LICENCE.md",
+    "scripts/product_convergence_gate.py"
+  ],
+  "policy": "External/fusion references are allowed only when explicitly reviewed here; new fusion work must add a smoke target or entrypoint wiring."
+}
