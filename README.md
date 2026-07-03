@@ -1,3 +1,32 @@
+<!-- ZHIXIE_PROFILE_POLISH_START -->
+
+<p align="left">
+<a href="https://github.com/503496348-ops/summoner/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/503496348-ops/summoner?style=social"></a>
+<a href="https://github.com/503496348-ops/summoner/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/503496348-ops/summoner"></a>
+<img alt="License" src="https://img.shields.io/github/license/503496348-ops/summoner">
+<a href="https://github.com/503496348-ops/summoner/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/503496348-ops/summoner/actions/workflows/ci.yml/badge.svg"></a>
+<img alt="Domain" src="https://img.shields.io/badge/domain-%E6%BC%AB%E7%94%BB%E7%94%9F%E6%88%90-blue">
+</p>
+
+## Highlights
+
+- **Product**: Summoner / 召物少年
+- **Domain**: 漫画生成
+- **Maintained by**: [503496348-ops](https://github.com/503496348-ops) product matrix
+- **Delivery posture**: one-click setup, doctor diagnostics, smoke test, convergence gate, and clean-clone verification are part of the maintenance standard.
+
+## Quality Gates
+
+```bash
+./install.sh
+python3 scripts/doctor.py
+python3 scripts/smoke.py
+python3 scripts/product_convergence_gate.py --json
+python3 -m pytest tests/ -q
+```
+
+<!-- ZHIXIE_PROFILE_POLISH_END -->
+
 ## 一键安装 / One-click Quickstart
 
 ```bash
