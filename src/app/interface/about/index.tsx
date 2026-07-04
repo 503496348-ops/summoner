@@ -42,7 +42,7 @@ export function About() {
             {APP_DOMAIN} generates stories using AI in a few clicks.
           </p>
           <p>
-           App is free for Hugging Face users 👉 <Login />
+           免费使用，登录即可开始创作 👉 <Login />
           </p>
 
           <p className="pt-2 pb-2">

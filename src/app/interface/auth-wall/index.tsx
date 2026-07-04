@@ -13,7 +13,7 @@ export function AuthWall({ show }: { show: boolean }) {
           The 召物少年-Summoner is a free app compatible with many vendors.
         </p>
         <p>
-          By default it uses Hugging Face for story and image generation,<br/>
+          AI 自动生成故事和漫画，<br/>
           our service is free of charge but we would like you to sign-in 👇
          </p>
          <p>

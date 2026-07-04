@@ -211,7 +211,7 @@ export function SettingsDialog() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="SERVER" disabled className="opacity-50 cursor-not-allowed">Free Hugging Face server (unavailable)</SelectItem>
+                <SelectItem value="SERVER" disabled className="opacity-50 cursor-not-allowed">免费服务（不可用）</SelectItem>
                 <SelectItem value="HUGGINGFACE">Custom Inference API model (pro hugging face account recommended)</SelectItem>
                 <SelectItem value="REPLICATE">Custom Replicate model (will bill your own account)</SelectItem>
                 <SelectItem value="OPENAI">DALL·E 3 by OpenAI (partial support, will bill your own account)</SelectItem>
@@ -222,7 +222,7 @@ export function SettingsDialog() {
 
           {renderingModelVendor === "HUGGINGFACE" && <>
             <Field>
-              <Label>Hugging Face API Token (<a className="text-stone-600 underline" href="https://huggingface.co/subscribe/pro" target="_blank">PRO account</a> recommended for higher rate limit):</Label>
+              <Label>Hugging Face API Token（<a className="text-stone-600 underline" href="https://huggingface.co/subscribe/pro" target="_blank">PRO 账户</a>推荐，速率更高）：</Label>
               <Input
                 className={fonts.actionman.className}
                 type="password"
@@ -419,7 +419,7 @@ export function SettingsDialog() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="SERVER" disabled className="opacity-50 cursor-not-allowed">Free Hugging Face server (unavailable)</SelectItem>
+                <SelectItem value="SERVER" disabled className="opacity-50 cursor-not-allowed">免费服务（不可用）</SelectItem>
                 <SelectItem value="GROQ">Open-source models on Groq (will bill your own account)</SelectItem>
                 <SelectItem value="ANTHROPIC">Claude by Anthropic (will bill your own account)</SelectItem>
                 <SelectItem value="OPENAI">ChatGPT by OpenAI (will bill your own account)</SelectItem>
