@@ -1,6 +1,10 @@
 ---
 name: summoner
 description: "漫画分层布局生成 — 为气泡、面板、图层自动规划布局方案"
+license: MIT
+metadata:
+  author: 503496348-ops
+  version: 1.0.0
 triggers:
   - "漫画"
   - "分镜"
