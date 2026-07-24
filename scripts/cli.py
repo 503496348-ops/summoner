@@ -3,7 +3,7 @@
 import argparse, json, sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-def cmd_generate(args):
+def cmd_generate(args) -> None:
     """Generate comic layout plan."""
     from tools.layered_comic_layout import plan_comic_layers, Bubble, ComicLayerPlan
     bubbles = []
@@ -16,7 +16,7 @@ def cmd_generate(args):
     plan = plan_comic_layers(bubbles)
     print(json.dumps({"bubbles": len(bubbles), "layers": str(plan)}, ensure_ascii=False, indent=2))
 
-def cmd_list_styles(args):
+def cmd_list_styles(args) -> None:
     """List available comic styles."""
     styles = [
         {"name": "manga", "desc": "日式漫画风格"},
@@ -28,10 +28,10 @@ def cmd_list_styles(args):
         print(f"  {s['name']:12s} — {s['desc']}")
 
 
-def cmd_info(args):
+def cmd_info(args) -> None:
     """Show product info."""
     print(json.dumps({"product": "Summoner", "type": "漫画分层布局生成", "status": "ok"}, ensure_ascii=False, indent=2))
-def main():
+def main() -> None:
     p = argparse.ArgumentParser(description='Summoner 漫画生成工具')
     sub = p.add_subparsers(dest='command')
 
