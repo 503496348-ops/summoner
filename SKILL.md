@@ -5,15 +5,17 @@ license: MIT
 metadata:
   author: 503496348-ops
   version: 1.0.0
-triggers:
-  - "漫画"
-  - "分镜"
-  - "分层布局"
-  - "comic layout"
-  - "分格"
 ---
 
 # Summoner — 漫画分层布局生成
+
+## 触发条件
+
+- "漫画"
+- "分镜"
+- "分层布局"
+- "comic layout"
+- "分格"
 
 为漫画页面的气泡、面板和图层自动规划布局方案。
 
